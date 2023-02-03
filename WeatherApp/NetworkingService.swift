@@ -14,21 +14,28 @@ protocol NetworkingDelegate {
 
 
 class NetworkingService {
+
+    var imageURL = "http://openweathermap.org/img/wn/"
+    var imageURL2 = "@2x.png"
     
     var delegate: NetworkingDelegate?
     static var shared = NetworkingService()
     
-    var urlString = "http://gd.geobytes.com/AutoCompleteCity?&q="
+        // var urlString = "http://gd.geobytes.com/AutoCompleteCity?&q="
+
     
     
     
-    func getData2(searchText: String, completionHandler: @escaping (Result<Data,Error>)->Void){
+    func getData2(fullurl: String, completionHandler: @escaping (Result<Data,Error>)->Void){
         
-        let urlObject = URL(string: urlString + searchText)
+        let urlObj = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=Toronto ,Canada&appid=d0eaa0c4f0663a05b88a948b96fee30c")
+        let urlObject = URL(string: fullurl)
         
                 // check if the urlObject is correct
         
                 if let correctURL = urlObject {
+                    
+                    
                     URLSession.shared.dataTask(with: correctURL) { data, response, error in
                         
                         if let error = error {

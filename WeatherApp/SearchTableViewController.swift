@@ -7,18 +7,28 @@
 
 import UIKit
 
+protocol SearchingDelegate {
+    func searchDifFinishWithASelectedCity(city : City);
+    func searchDidCancel();
+}
+
 class SearchTableViewController: UITableViewController ,
                                  UISearchBarDelegate ,
                                     NetworkingDelegate
 {
+    func networkingDidFinishWithResult(allCities: [String]) {
+        
+    }
+    
    
+    var delegate : SearchingDelegate?
     
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     @IBOutlet weak var searchBar: UISearchBar!
     
-    var citiesNames = [String]()
+    var citiesNames = [City]()
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -50,7 +60,7 @@ class SearchTableViewController: UITableViewController ,
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = citiesNames[indexPath.row]
+        cell.textLabel?.text = "\(citiesNames[indexPath.row].cityName)  \(citiesNames[indexPath.row].countryName )"
 
         return cell
     }
@@ -58,20 +68,20 @@ class SearchTableViewController: UITableViewController ,
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         activityIndicator.isHidden = false
         if searchText.count < 3 {
-            self.citiesNames = [String]()
+            self.citiesNames = [City]()
             self.tableView.reloadData()
         }
         if searchText.count >= 3 { // 1
             activityIndicator.isHidden = false
                 //  NetworkingService.shared.getData(searchText: searchText)
      
-            NetworkingService.shared.getData2(searchText: searchText) { result in
+            NetworkingService.shared.getData2(fullurl: "http://gd.geobytes.com/AutoCompleteCity?&q=" + searchText) { result in
                 switch result{
                 case .failure(let error):
                     print(error)
                     
                 case .success(let data):
-                    let result =  JsonService.shared.parseJson(data: data)
+                    let result : [City] =  JsonService.shared.parseJson(data: data)
                     DispatchQueue.main.async {
                         self.citiesNames = result
                         self.tableView.reloadData()
@@ -89,14 +99,14 @@ class SearchTableViewController: UITableViewController ,
     
     func networkingDidFinishWithError() {
         // no thing to do
-        citiesNames = [String]()
+        citiesNames = [City]()
         DispatchQueue.main.async {
             self.tableView.reloadData()
         }
         
     }
     
-    func networkingDidFinishWithResult(allCities: [String]) {
+    func networkingDidFinishWithResult(allCities: [City]) {
         
         DispatchQueue.main.async {
             self.citiesNames = allCities
@@ -104,6 +114,13 @@ class SearchTableViewController: UITableViewController ,
             self.activityIndicator.isHidden = true
 
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var selectedCity = citiesNames[indexPath.row]
+        delegate?.searchDifFinishWithASelectedCity(city: selectedCity)
+        navigationController?.popViewController(animated: true)
     }
 
     /*

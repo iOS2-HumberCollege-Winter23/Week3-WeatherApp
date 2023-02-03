@@ -7,40 +7,67 @@
 
 import UIKit
 
-class CitiesTableViewController: UITableViewController {
+class CitiesTableViewController: UITableViewController , SearchingDelegate{
 
+    
+    var cities = [City]()
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        
+        
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return cities.count
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+    
+    
+    func searchDifFinishWithASelectedCity(city: City) {
+        cities.append(city)
+        tableView.reloadData()
+    }
+    
+    func searchDidCancel() {
+        print ("Cancel")
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "toSearch"{
+            let SVC = segue.destination as! SearchTableViewController
+            SVC.delegate = self
+            
+        } else {
+          
+            var index = tableView.indexPathForSelectedRow?.row
+            let WVC = segue.destination as! WeatherViewController
+            WVC.selectedCity = cities[index!]
+            
+        }
+    }
 
-        // Configure the cell...
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+
+        cell.textLabel?.text = cities[indexPath.row].cityName
+        cell.detailTextLabel?.text = cities[indexPath.row].countryName
 
         return cell
     }
-    */
-
+    
+    
+    
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
