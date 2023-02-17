@@ -10,6 +10,8 @@
 		218C1015298D6A7D00B3E029 /* City.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218C1014298D6A7D00B3E029 /* City.swift */; };
 		218C1017298D6F6D00B3E029 /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218C1016298D6F6D00B3E029 /* WeatherViewController.swift */; };
 		218C1019298D7E7C00B3E029 /* WeatherObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218C1018298D7E7C00B3E029 /* WeatherObject.swift */; };
+		21AEA6352996A71D00E276EC /* citiesDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 21AEA6332996A71D00E276EC /* citiesDB.xcdatamodeld */; };
+		21AEA6372996A78D00E276EC /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21AEA6362996A78D00E276EC /* CoreDataService.swift */; };
 		21C39A8C29842BAF003FEAF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C39A8B29842BAF003FEAF7 /* AppDelegate.swift */; };
 		21C39A8E29842BAF003FEAF7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C39A8D29842BAF003FEAF7 /* SceneDelegate.swift */; };
 		21C39A9329842BAF003FEAF7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C39A9129842BAF003FEAF7 /* Main.storyboard */; };
@@ -25,6 +27,8 @@
 		218C1014298D6A7D00B3E029 /* City.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = City.swift; sourceTree = "<group>"; };
 		218C1016298D6F6D00B3E029 /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		218C1018298D7E7C00B3E029 /* WeatherObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherObject.swift; sourceTree = "<group>"; };
+		21AEA6342996A71D00E276EC /* citiesDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = citiesDB.xcdatamodel; sourceTree = "<group>"; };
+		21AEA6362996A78D00E276EC /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		21C39A8829842BAF003FEAF7 /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21C39A8B29842BAF003FEAF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21C39A8D29842BAF003FEAF7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,8 @@
 				218C1014298D6A7D00B3E029 /* City.swift */,
 				218C1016298D6F6D00B3E029 /* WeatherViewController.swift */,
 				218C1018298D7E7C00B3E029 /* WeatherObject.swift */,
+				21AEA6332996A71D00E276EC /* citiesDB.xcdatamodeld */,
+				21AEA6362996A78D00E276EC /* CoreDataService.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -164,6 +170,8 @@
 				218C1017298D6F6D00B3E029 /* WeatherViewController.swift in Sources */,
 				21C39AA6298447F9003FEAF7 /* JsonService.swift in Sources */,
 				218C1015298D6A7D00B3E029 /* City.swift in Sources */,
+				21AEA6372996A78D00E276EC /* CoreDataService.swift in Sources */,
+				21AEA6352996A71D00E276EC /* citiesDB.xcdatamodeld in Sources */,
 				218C1019298D7E7C00B3E029 /* WeatherObject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -380,6 +388,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		21AEA6332996A71D00E276EC /* citiesDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				21AEA6342996A71D00E276EC /* citiesDB.xcdatamodel */,
+			);
+			currentVersion = 21AEA6342996A71D00E276EC /* citiesDB.xcdatamodel */;
+			path = citiesDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 21C39A8029842BAF003FEAF7 /* Project object */;
 }

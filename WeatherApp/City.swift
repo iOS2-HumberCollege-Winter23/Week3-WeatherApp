@@ -19,6 +19,4 @@ class City {
         self.stateName = state
        
     }
-    
-    
 }

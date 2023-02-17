@@ -118,9 +118,29 @@ class SearchTableViewController: UITableViewController ,
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        var selectedCity = citiesNames[indexPath.row]
-        delegate?.searchDifFinishWithASelectedCity(city: selectedCity)
-        navigationController?.popViewController(animated: true)
+        
+        let alert = UIAlertController(title: "Save This City", message: "Are you sure you want to save this city?", preferredStyle: .alert)
+        
+        let  saveAction = UIAlertAction(title: "Save", style: .default) { action in
+            
+            let selectedCity = self.citiesNames[indexPath.row]
+            
+            CoreDataService.shared.insertNewCityToDB(city: selectedCity)
+            
+            self.delegate?.searchDifFinishWithASelectedCity(city: selectedCity)
+            self.navigationController?.popViewController(animated: true)
+            
+        }
+        
+         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
+        
+       
+        
     }
 
     /*

@@ -6,13 +6,28 @@
 //
 
 import UIKit
+import CloudKit
+import CoreData
 
-class CitiesTableViewController: UITableViewController , SearchingDelegate{
+class CitiesTableViewController: UITableViewController , SearchingDelegate,
+NSFetchedResultsControllerDelegate
+{
 
+   // var citiesFromDB = [CityDB]()
     
-    var cities = [City]()
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+       // citiesFromDB = CoreDataService.shared.getAllCities()
+        CoreDataService.shared.myFetchedResultController.delegate
+         = self
+       
+        do {
+           try CoreDataService.shared.myFetchedResultController.performFetch()
+            tableView.reloadData()
+        }catch {
+            
+        }
         
         
     }
@@ -20,20 +35,41 @@ class CitiesTableViewController: UITableViewController , SearchingDelegate{
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+        
+        return  CoreDataService.shared.myFetchedResultController.sections!.count
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = CoreDataService.shared.myFetchedResultController.sections?[section] else {
+            return nil
+        }
+        return sectionInfo.name
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cities.count
+       // return citiesFromDB.count
+        
+        guard let sections = CoreDataService.shared.myFetchedResultController.sections else {
+               fatalError("No sections in fetchedResultsController")
+           }
+           let sectionInfo = sections[section]
+           return sectionInfo.numberOfObjects
     }
 
     
     
     func searchDifFinishWithASelectedCity(city: City) {
-        cities.append(city)
-        tableView.reloadData()
+     //   citiesFromDB.append(city)
+        //citiesFromDB = CoreDataService.shared.getAllCities()
+        
+        do {
+           try CoreDataService.shared.myFetchedResultController.performFetch()
+            tableView.reloadData()
+        }catch {
+            
+        }
+        
     }
     
     func searchDidCancel() {
@@ -48,9 +84,14 @@ class CitiesTableViewController: UITableViewController , SearchingDelegate{
             
         } else {
           
-            var index = tableView.indexPathForSelectedRow?.row
+            let index = (tableView.indexPathForSelectedRow)!
             let WVC = segue.destination as! WeatherViewController
-            WVC.selectedCity = cities[index!]
+            
+            let object = CoreDataService.shared.myFetchedResultController.object(at: index)
+        
+            WVC.selectedCity = City(city: (object as CityDB).name!, state:  (object as CityDB).provice!, country:  (object as CityDB).country!)
+            
+           
             
         }
     }
@@ -59,8 +100,14 @@ class CitiesTableViewController: UITableViewController , SearchingDelegate{
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
 
-        cell.textLabel?.text = cities[indexPath.row].cityName
-        cell.detailTextLabel?.text = cities[indexPath.row].countryName
+      let object = CoreDataService.shared.myFetchedResultController.object(at: indexPath)
+
+        cell.textLabel?.text = (object as CityDB).name
+        cell.detailTextLabel?.text = (object as CityDB).country
+
+        return cell
+        //cell.textLabel?.text = citiesFromDB[indexPath.row].name
+        //cell.detailTextLabel?.text = citiesFromDB[indexPath.row].country
 
         return cell
     }
@@ -68,25 +115,35 @@ class CitiesTableViewController: UITableViewController , SearchingDelegate{
     
     
     
-    /*
+
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
-    */
 
-    /*
+
+  
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        let object = CoreDataService.shared.myFetchedResultController.object(at: indexPath)
+        
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            CoreDataService.shared.deleteCity(cityToDelete: object as CityDB)
+            
+            do {
+               try CoreDataService.shared.myFetchedResultController.performFetch()
+                tableView.reloadData()
+            }catch {
+                
+            }
+            
+
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

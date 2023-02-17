@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Cities Table View Controller-->
+        <!--Favorite Cities-->
         <scene sceneID="olr-Nl-oxd">
             <objects>
                 <tableViewController id="3yA-pv-x4P" customClass="CitiesTableViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
@@ -50,7 +50,7 @@
                             <outlet property="delegate" destination="3yA-pv-x4P" id="wce-1Z-zzo"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Sgg-RD-IoD">
+                    <navigationItem key="navigationItem" title="Favorite Cities" id="Sgg-RD-IoD">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bA-VE-nvA">
                             <connections>
                                 <segue destination="H6k-ni-Vs1" kind="push" identifier="toSearch" id="it2-1v-FG4"/>

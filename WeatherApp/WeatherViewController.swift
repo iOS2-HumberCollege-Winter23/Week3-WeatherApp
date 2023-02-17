@@ -29,6 +29,8 @@ class WeatherViewController: UIViewController  {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = selectedCity?.cityName
+        
         var fullURL = url1 + selectedCity!.cityName +
         "," + selectedCity!.countryName  + url2 + key
         
